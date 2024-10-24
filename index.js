@@ -19,7 +19,7 @@ app.post("/api/shorturl", (req, res) => {
   if (!urlRegex.test(longUrl)) {
     res.send({ error: "Invalid URL" });
   }
-  shortUrl = Math.floor(Math.random() * 10000);
+  const shortUrl = Math.floor(Math.random() * 10000).toString();
   urlDatabase[shortUrl] = longUrl;
   res.json({ original_url: longUrl, short_url: shortUrl });
 });
