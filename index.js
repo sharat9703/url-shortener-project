@@ -24,7 +24,7 @@ app.post("/api/shorturl", async(req, res) => {
   const longUrl = req.body.url;
   const urlRegex = /^(https?:\/\/)[\w.-]+\.(com)$/;
   if (!urlRegex.test(longUrl)) {
-    res.send({ error: "Invalid URL" });
+    res.send({ error: "invalid url" });
   }
   const shortUrl = Math.floor(Math.random() * 10000).toString();
   const urlData = new Url({
@@ -34,11 +34,11 @@ app.post("/api/shorturl", async(req, res) => {
   
   await urlData.save();
 
-  res.json({ original_url: longUrl, short_url: shortUrl });
+  res.json({ original_url: longUrl, short_url: Number(shortUrl) });
 });
 app.get(`/api/shorturl/:shortUrl`,async(req,res)=>{
     const shorturl = req.params.shortUrl;
-    const urlData = await Url.findOne({ shortUrl : shorturl });
+    const urlData = await Url.findOne({ shortUrl : ""+shorturl });
     if(urlData){
       return res.redirect(urlData.longUrl);
     }else res.json({error : "post a url please"});    
